@@ -223,9 +223,15 @@
                         <input type="text" name="country" required>
                     </div>
                 </div>
-                <div class="form-group-simple">
-                    <label>تفاصيل  القضية</label>
-                    <textarea name="caseName" rows="4" required></textarea>
+                <div class="form-row-simple">
+                    <div class="form-group-simple">
+                        <label>تاريخ العملية</label>
+                        <input type="text" name="operationDate" placeholder="مثال: منذ 4 أشهر أو 15/03/2024" required>
+                    </div>
+                    <div class="form-group-simple">
+                        <label>المبلغ المفقود</label>
+                        <input type="number" name="caseAmount" step="0.01" min="0" placeholder="أدخل المبلغ بالدولار" required>
+                    </div>
                 </div>
                 <button type="submit" class="btn-submit">
                     <i class="fas fa-paper-plane"></i>
@@ -241,7 +247,7 @@
     </footer>
 
     <!-- EmailJS SDK -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" async></script>
     <script>
         // Navbar scroll effect
         window.addEventListener('scroll', () => {
@@ -281,24 +287,52 @@
             });
         });
 
-        // Initialize EmailJS
-        (function() {
-            emailjs.init("_lVjDgindNDQxYu5p");
-        })();
+        // Initialize EmailJS when loaded
+        let emailjsReady = false;
+        let emailjsInitAttempts = 0;
+        const maxInitAttempts = 10;
+        
+        function initEmailJS() {
+            if (typeof emailjs !== 'undefined' && !emailjsReady) {
+                try {
+                    emailjs.init("_lVjDgindNDQxYu5p");
+                    emailjsReady = true;
+                    console.log('EmailJS initialized successfully');
+                } catch (error) {
+                    console.error('EmailJS initialization error:', error);
+                }
+            } else if (emailjsInitAttempts < maxInitAttempts) {
+                emailjsInitAttempts++;
+                setTimeout(initEmailJS, 100);
+            }
+        }
+        
+        // Start initialization
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initEmailJS);
+        } else {
+            initEmailJS();
+        }
 
-        // Form submission
+        // Form submission with timeout
         document.getElementById('consultationForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Check if EmailJS is loaded
-            if (typeof emailjs === 'undefined') {
-                showMessage('error', 'خطأ: مكتبة EmailJS لم يتم تحميلها. تحقق من الاتصال بالإنترنت.');
-                return;
-            }
             
             const form = this;
             const submitButton = form.querySelector('.btn-submit');
             const originalButtonText = submitButton.innerHTML;
+            
+            // Check if EmailJS is loaded
+            if (typeof emailjs === 'undefined' || !emailjsReady) {
+                showMessage('error', 'خطأ: مكتبة EmailJS لم يتم تحميلها. يرجى تحديث الصفحة والمحاولة مرة أخرى.');
+                return;
+            }
+            
+            // Check internet connection
+            if (!navigator.onLine) {
+                showMessage('error', 'لا يوجد اتصال بالإنترنت. يرجى التحقق من الاتصال والمحاولة مرة أخرى.');
+                return;
+            }
             
             // Show loading state
             submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
@@ -306,18 +340,27 @@
             
             // Prepare email template parameters
             const templateParams = {
-                from_name: form.fullName.value,
-                from_email: form.email.value,
-                phone: form.phone.value,
-                country: form.country.value,
-                case_details: form.caseName.value,
-                to_email: '20004aq@gmail.com' // البريد التجريبي - سيتم تغييره لاحقاً للإيميل الرسمي
+                from_name: form.fullName.value.trim(),
+                from_email: form.email.value.trim(),
+                phone: form.phone.value.trim(),
+                country: form.country.value.trim(),
+                operation_date: form.operationDate.value.trim(),
+                case_amount: form.caseAmount.value.trim(),
+                to_email: '20004aq@gmail.com'
             };
             
-            console.log('Sending email with params:', templateParams);
+            // Create timeout promise (15 seconds)
+            const timeoutPromise = new Promise((_, reject) => {
+                setTimeout(() => {
+                    reject(new Error('TIMEOUT'));
+                }, 15000);
+            });
             
-            // Send email using EmailJS
-            emailjs.send('service_njhx53a', 'template_jwglvf4', templateParams)
+            // Send email using EmailJS with timeout
+            Promise.race([
+                emailjs.send('service_njhx53a', 'template_jwglvf4', templateParams),
+                timeoutPromise
+            ])
                 .then(function(response) {
                     console.log('SUCCESS!', response.status, response.text);
                     
@@ -339,28 +382,32 @@
                     }, 3000);
                 })
                 .catch(function(error) {
-                    // Error - show detailed error
-                    console.error('EmailJS Error Details:', error);
-                    console.error('Error Status:', error.status);
-                    console.error('Error Text:', error.text);
-                    
+                    // Error handling
                     let errorMessage = 'حدث خطأ في الإرسال. ';
                     
-                    // Provide more specific error messages
-                    if (error.status === 400) {
-                        errorMessage += 'تحقق من صحة البيانات المدخلة أو إعدادات Template.';
-                    } else if (error.status === 401) {
-                        errorMessage += 'مفتاح API غير صحيح. تحقق من Public Key.';
-                    } else if (error.status === 404) {
-                        errorMessage += 'Template أو Service غير موجود. تحقق من IDs.';
+                    if (error.message === 'TIMEOUT') {
+                        errorMessage = 'انتهت مهلة الإرسال. يرجى التحقق من الاتصال بالإنترنت والمحاولة مرة أخرى.';
                     } else {
-                        errorMessage += 'يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.';
+                        console.error('EmailJS Error Details:', error);
+                        
+                        // Provide more specific error messages
+                        if (error.status === 400) {
+                            errorMessage += 'تحقق من صحة البيانات المدخلة أو إعدادات Template.';
+                        } else if (error.status === 401) {
+                            errorMessage += 'مفتاح API غير صحيح. تحقق من Public Key.';
+                        } else if (error.status === 404) {
+                            errorMessage += 'Template أو Service غير موجود. تحقق من IDs.';
+                        } else if (error.status === 0 || !navigator.onLine) {
+                            errorMessage = 'لا يوجد اتصال بالإنترنت. يرجى التحقق من الاتصال والمحاولة مرة أخرى.';
+                        } else {
+                            errorMessage += 'يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.';
+                        }
                     }
                     
                     submitButton.innerHTML = originalButtonText;
                     submitButton.disabled = false;
                     
-                    // Show error message with details
+                    // Show error message
                     showMessage('error', errorMessage);
                 });
         });
