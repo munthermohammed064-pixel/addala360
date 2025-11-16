@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /emailjs_template.html
+
+Sitemap: https://yourdomain.com/sitemap.xml
+

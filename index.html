@@ -3,20 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="مكتب محاماة متخصص في استعادة الأموال المحتالة من شركات التداول الوهمية. خبرة 10+ سنوات و 2500+ قضية ناجحة.">
+    <meta name="keywords" content="استعادة أموال, محاماة, تداول, احتيال, قضايا, قانون">
+    <meta name="author" content="العدالة 360">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="استعادة أموال التداول المحتالة | مكتب محاماة متخصص">
+    <meta property="og:description" content="مكتب محاماة متخصص في استعادة الأموال المحتالة من شركات التداول الوهمية">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
     <title>استعادة أموال التداول المحتالة | مكتب محاماة متخصص</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin>
 </head>
 <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">انتقل إلى المحتوى الرئيسي</a>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo-nav">
-                <img src="logo.jpg" alt="العدالة 360" class="logo-image">
+                <img src="logo.jpg" alt="شعار مكتب العدالة 360 للمحاماة" class="logo-image" loading="eager">
             </div>
-            <button class="menu-toggle" aria-label="Toggle menu">
-                <i class="fas fa-bars"></i>
+            <button class="menu-toggle" aria-label="فتح القائمة" aria-expanded="false">
+                <i class="fas fa-bars" aria-hidden="true"></i>
             </button>
             <ul class="nav-menu">
                 <li><a href="#about">من نحن</a></li>
@@ -29,10 +39,11 @@
     </nav>
 
     <!-- Hero Section -->
+    <main id="main-content">
     <section class="hero">
         <div class="hero-content">
             <div class="hero-main-image-box">
-                <img src="logo.jpg" alt="مكتب قانوني" class="hero-main-image">
+                <img src="logo.jpg" alt="مكتب العدالة 360 القانوني المتخصص في استعادة الأموال" class="hero-main-image" loading="eager">
             </div>
             <div class="hero-consultation-button-wrapper">
                 <a href="#consultation" class="hero-consultation-button">
@@ -205,42 +216,43 @@
             <form class="form-modern" id="consultationForm">
                 <div class="form-row-simple">
                     <div class="form-group-simple">
-                        <label>الاسم الكامل</label>
-                        <input type="text" name="fullName" required>
+                        <label for="fullName">الاسم الكامل</label>
+                        <input type="text" id="fullName" name="fullName" required maxlength="100" aria-required="true" aria-label="الاسم الكامل">
                     </div>
                     <div class="form-group-simple">
-                        <label>رقم الهاتف</label>
-                        <input type="tel" name="phone" required>
+                        <label for="phone">رقم الهاتف</label>
+                        <input type="tel" id="phone" name="phone" required maxlength="20" pattern="[\d\s\-\+\(\)]+" aria-required="true" aria-label="رقم الهاتف">
                     </div>
                 </div>
                 <div class="form-row-simple">
                     <div class="form-group-simple">
-                        <label>البريد الإلكتروني</label>
-                        <input type="email" name="email" required>
+                        <label for="email">البريد الإلكتروني</label>
+                        <input type="email" id="email" name="email" required maxlength="100" aria-required="true" aria-label="البريد الإلكتروني">
                     </div>
                     <div class="form-group-simple">
-                        <label>الدولة</label>
-                        <input type="text" name="country" required>
+                        <label for="country">الدولة</label>
+                        <input type="text" id="country" name="country" required maxlength="50" aria-required="true" aria-label="الدولة">
                     </div>
                 </div>
                 <div class="form-row-simple">
                     <div class="form-group-simple">
-                        <label>تاريخ العملية</label>
-                        <input type="text" name="operationDate" placeholder="مثال: منذ 4 أشهر أو 15/03/2024" required>
+                        <label for="operationDate">تاريخ العملية</label>
+                        <input type="text" id="operationDate" name="operationDate" placeholder="مثال: منذ 4 أشهر أو 15/03/2024" required maxlength="50" aria-required="true" aria-label="تاريخ العملية">
                     </div>
                     <div class="form-group-simple">
-                        <label>المبلغ المفقود</label>
-                        <input type="number" name="caseAmount" step="0.01" min="0" placeholder="أدخل المبلغ بالدولار" required>
+                        <label for="caseAmount">المبلغ المفقود</label>
+                        <input type="number" id="caseAmount" name="caseAmount" step="0.01" min="0" max="999999999" placeholder="أدخل المبلغ بالدولار" required aria-required="true" aria-label="المبلغ المفقود بالدولار">
                     </div>
                 </div>
-                <button type="submit" class="btn-submit">
-                    <i class="fas fa-paper-plane"></i>
+                <button type="submit" class="btn-submit" aria-label="إرسال طلب الاستشارة">
+                    <i class="fas fa-paper-plane" aria-hidden="true"></i>
                     إرسال
                 </button>
             </form>
         </div>
     </section>
 
+    </main>
     <!-- Footer -->
     <footer class="footer-modern">
         <p>&copy; 2025 العدالة 360 - جميع الحقوق محفوظة</p>
@@ -265,7 +277,8 @@
         
         if (menuToggle) {
             menuToggle.addEventListener('click', () => {
-                navMenu.classList.toggle('active');
+                const isActive = navMenu.classList.toggle('active');
+                menuToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
             });
         }
         
@@ -297,9 +310,8 @@
                 try {
                     emailjs.init("_lVjDgindNDQxYu5p");
                     emailjsReady = true;
-                    console.log('EmailJS initialized successfully');
                 } catch (error) {
-                    console.error('EmailJS initialization error:', error);
+                    // Silent error handling - user will see message if form submission fails
                 }
             } else if (emailjsInitAttempts < maxInitAttempts) {
                 emailjsInitAttempts++;
@@ -314,6 +326,10 @@
             initEmailJS();
         }
 
+        // Rate limiting to prevent spam
+        let lastSubmissionTime = 0;
+        const minTimeBetweenSubmissions = 30000; // 30 seconds
+        
         // Form submission with timeout
         document.getElementById('consultationForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -321,6 +337,14 @@
             const form = this;
             const submitButton = form.querySelector('.btn-submit');
             const originalButtonText = submitButton.innerHTML;
+            
+            // Rate limiting check
+            const now = Date.now();
+            if (now - lastSubmissionTime < minTimeBetweenSubmissions) {
+                const remainingTime = Math.ceil((minTimeBetweenSubmissions - (now - lastSubmissionTime)) / 1000);
+                showMessage('error', `يرجى الانتظار ${remainingTime} ثانية قبل إرسال طلب آخر.`);
+                return;
+            }
             
             // Check if EmailJS is loaded
             if (typeof emailjs === 'undefined' || !emailjsReady) {
@@ -337,6 +361,9 @@
             // Show loading state
             submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
             submitButton.disabled = true;
+            
+            // Update last submission time
+            lastSubmissionTime = now;
             
             // Prepare email template parameters
             const templateParams = {
@@ -356,14 +383,48 @@
                 }, 15000);
             });
             
+            // Sanitize input to prevent XSS
+            function sanitizeInput(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+            
+            // Validate and sanitize form data
+            const sanitizedParams = {
+                from_name: sanitizeInput(form.fullName.value.trim()),
+                from_email: sanitizeInput(form.email.value.trim()),
+                phone: sanitizeInput(form.phone.value.trim()),
+                country: sanitizeInput(form.country.value.trim()),
+                operation_date: sanitizeInput(form.operationDate.value.trim()),
+                case_amount: sanitizeInput(form.caseAmount.value.trim()),
+                to_email: '20004aq@gmail.com'
+            };
+            
+            // Additional email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(form.email.value.trim())) {
+                submitButton.innerHTML = originalButtonText;
+                submitButton.disabled = false;
+                showMessage('error', 'يرجى إدخال بريد إلكتروني صحيح.');
+                return;
+            }
+            
+            // Phone validation (basic)
+            const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+            if (!phoneRegex.test(form.phone.value.trim()) || form.phone.value.trim().length < 8) {
+                submitButton.innerHTML = originalButtonText;
+                submitButton.disabled = false;
+                showMessage('error', 'يرجى إدخال رقم هاتف صحيح.');
+                return;
+            }
+            
             // Send email using EmailJS with timeout
             Promise.race([
-                emailjs.send('service_njhx53a', 'template_jwglvf4', templateParams),
+                emailjs.send('service_njhx53a', 'template_jwglvf4', sanitizedParams),
                 timeoutPromise
             ])
                 .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
-                    
                     // Success
                     submitButton.innerHTML = '<i class="fas fa-check"></i> تم الإرسال بنجاح!';
                     submitButton.style.background = 'linear-gradient(135deg, #4caf50, #45a049)';
@@ -388,8 +449,6 @@
                     if (error.message === 'TIMEOUT') {
                         errorMessage = 'انتهت مهلة الإرسال. يرجى التحقق من الاتصال بالإنترنت والمحاولة مرة أخرى.';
                     } else {
-                        console.error('EmailJS Error Details:', error);
-                        
                         // Provide more specific error messages
                         if (error.status === 400) {
                             errorMessage += 'تحقق من صحة البيانات المدخلة أو إعدادات Template.';
